@@ -1,0 +1,49 @@
+{
+    "name": "portfolio",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "nuxt",
+        "build": "nuxt build",
+        "start": "nuxt start",
+        "generate": "nuxt generate",
+        "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
+        "lint": "npm run lint:js",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "prod": "npm run production",
+        "production": "mix --production",
+        "api": "./artisan serve",
+        "seed": "./artisan migrate:fresh --seed",
+        "caches": "./artisan config:cache; ./artisan route:cache; ./artisan cache:clear; ./artisan event:clear;"
+    },
+    "dependencies": {
+        "@nuxtjs/auth-next": "^5.0.0-1647967358.de1bb0f",
+        "@nuxtjs/axios": "^5.13.6",
+        "@nuxtjs/composition-api": "^0.32.0",
+        "@types/js-cookie": "^3.0.1",
+        "axios": "^0.26.1",
+        "core-js": "^3.21.1",
+        "js-cookie": "^3.0.1",
+        "nuxt": "^2.15.8",
+        "vue": "^2.6.14",
+        "vue-server-renderer": "^2.6.14",
+        "vue-template-compiler": "^2.6.14",
+        "webpack": "^4.46.0",
+        "yarn": "^1.22.18"
+      },
+    "devDependencies": {
+        "laravel-mix": "^6.0.6",
+        "lodash": "^4.17.19",
+        "@babel/eslint-parser": "^7.14.7",
+        "@nuxt/types": "^2.15.8",
+        "@nuxt/typescript-build": "^2.1.0",
+        "@nuxtjs/eslint-config-typescript": "^6.0.1",
+        "@nuxtjs/eslint-module": "^3.0.2",
+        "eslint": "^7.29.0",
+        "eslint-plugin-nuxt": "^2.0.0",
+        "eslint-plugin-vue": "^7.12.1"
+    }
+}
