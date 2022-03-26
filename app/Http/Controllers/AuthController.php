@@ -44,7 +44,7 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if(!auth()->attempt($credentials)) {
-            return response(["message"=>"Credentials does not match"], 400);
+            return response(["message"=>"Credentials do not match"], 400);
         }
 
         $user = User::where('email', $request->email)->first();

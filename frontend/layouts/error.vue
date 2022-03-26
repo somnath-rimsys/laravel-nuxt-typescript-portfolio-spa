@@ -1,7 +1,7 @@
 <template>
   <div class="error-container">
-    <h3>I thing you are lost.</h3>
-    <nuxt-link to="/"> back to safty</nuxt-link>
+    <h3>I think you are lost.</h3>
+    <nuxt-link to="/"> Back to safty</nuxt-link>
   </div>
 </template>
 
