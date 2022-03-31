@@ -22,7 +22,7 @@ class UserController extends Controller
 
             if($user->profile_image_path)
             {
-                $profile_image = $this->getProfileImage($request);
+                $profile_image = $this->getProfileImage($user->profile_image_path);
             }
 
             return response([
@@ -108,11 +108,10 @@ class UserController extends Controller
 
     }
 
-    public function getProfileImage(Request $request)
+    public function getProfileImage($pathFromDb)
     {
 
-        $pathFromDb = UserDetails::where('user_id', $request->user()->id)->select('profile_image_path')->get();
-        $imgPath = env('UPLOADED_FILES').DIRECTORY_SEPARATOR.$pathFromDb[0]['profile_image_path'];
+        $imgPath = env('UPLOADED_FILES').DIRECTORY_SEPARATOR.$pathFromDb;
 
         if(file_exists($imgPath))
         {
