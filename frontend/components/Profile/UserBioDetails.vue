@@ -126,7 +126,7 @@
 
           <div class="form-group">
             <label for="address">Address</label>
-            <textarea id="address" rows="3" name="address">{{ user.address }}</textarea>
+            <textarea id="address" rows="3" name="address" :value="user.address"></textarea>
           </div>
         </form>
       </template>
@@ -226,6 +226,9 @@ export default defineComponent({
       // data
       editBasicDetailsModalVisible,
       proile_image_to_upload,
+      basicDetailsForm,
+      saveBtn,
+      cancelBtn,
 
       // methods
       updateUserDetails,
