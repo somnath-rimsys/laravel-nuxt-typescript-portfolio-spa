@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Log;
 use App\Models\UserDetails;
 use App\Models\User;
 use App\Models\UserExperiences;
+use Exception;
+use Illuminate\Filesystem\Filesystem;
 
 class UserController extends Controller
 {
@@ -18,20 +19,20 @@ class UserController extends Controller
                 ->where('user_id', $request->user()->id)
                 ->first();
             $profile_image = "";
-            
+
             if($user->profile_image_path)
             {
                 $profile_image = $this->getProfileImage($request);
             }
-    
+
             return response([
                 'user'=>$user,
                 'profile_image' => $profile_image
             ]);
         }
-        catch(e)
+        catch(Exception $e)
         {
-            return response(['error' => e], 500);
+            return response(['error' => $e], 500);
         }
     }
 
@@ -53,7 +54,7 @@ class UserController extends Controller
             if($request->proile_image)
             {
                 $imagePathForDb = $this->uploadProfileImage($request);
-                if($imagePathForDb) 
+                if($imagePathForDb)
                 {
                     $tempData = [
                         'address'               => $request->address,
@@ -65,31 +66,35 @@ class UserController extends Controller
                         'profile_image_path'    => $imagePathForDb
                     ];
                 }
-                
+
             }
 
-            UserDetails::where('user_id', $request->user()->id)
-                            ->update($tempData);
-    
+            UserDetails::where('user_id', $request->user()->id)->update($tempData);
+
             return redirect('/api/user');
         }
-        catch(e)
+        catch(Exception $e)
         {
-            return response(['error' => e], 500);
+            return response(['error' => $e], 500);
         }
     }
 
     public function uploadProfileImage(Request $request)
     {
+        $FileSystem = new Filesystem();
+
         $basePath = env('UPLOADED_FILES').DIRECTORY_SEPARATOR."User";
         if(!file_exists($basePath)){
             mkdir($basePath);
         }
-        
+
         $basePath = env('UPLOADED_FILES').DIRECTORY_SEPARATOR."User".DIRECTORY_SEPARATOR.$request->user()->id;
-        if(!file_exists($basePath)){
-            mkdir($basePath);
+        if(file_exists($basePath)){
+            $FileSystem->deleteDirectory($basePath);
         }
+
+        mkdir($basePath);
+
 
         $target_file =$basePath.DIRECTORY_SEPARATOR.basename($_FILES["proile_image"]["name"]);
 
@@ -100,7 +105,7 @@ class UserController extends Controller
             return $imagePathForDb;
         }
         return "";
-        
+
     }
 
     public function getProfileImage(Request $request)
@@ -131,9 +136,9 @@ class UserController extends Controller
                                             ->get();
             return response(['experiences' =>$experiences]);
         }
-        catch(e)
+        catch(Exception $e)
         {
-            return response(['error'=>e], 500);
+            return response(['error' => $e], 500);
         }
     }
 
@@ -165,9 +170,9 @@ class UserController extends Controller
 
             return redirect('/api/user/getExperiences');
         }
-        catch(e)
+        catch(Exception $e)
         {
-            return response(['error'=>e], 500);
+            return response(['error' => $e], 500);
         }
     }
 
@@ -197,12 +202,12 @@ class UserController extends Controller
                                         'currently_working' => $request->currently_working
                                     ]);
             }
-    
+
             return redirect('/api/user/getExperiences');
         }
-        catch(e)
+        catch(Exception $e)
         {
-            return response(['error'=>e], 500);
+            return response(['error' => $e], 500);
         }
     }
 
@@ -213,9 +218,9 @@ class UserController extends Controller
             UserExperiences::find($request->id)->delete();
             return redirect('/api/user/getExperiences');
         }
-        catch(e)
+        catch(Exception $e)
         {
-            return response(['error'=>e], 500);
+            return response(['error' => $e], 500);
         }
     }
 }
